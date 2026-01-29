@@ -1,24 +1,36 @@
-import React, { useMemo } from 'react';
+import { cva } from 'class-variance-authority';
+import React from 'react';
+import { twMerge } from 'tailwind-merge';
 
-interface BaseButtonProps {
-    variant?: 'primary' | 'dark';
-    text: string;
+type Variant = 'primary' | 'dark';
+
+interface BaseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: Variant;
+  text: string;
 }
 
-const handleVariant = (variant: BaseButtonProps["variant"]) => {
-    const variants = {
-        primary: 'w-24 rounded-full bg-white px-4 py-2 font-bold text-black md:w-32 lg:w-40',
-        dark: 'w-24 rounded-full bg-gray-700 px-4 py-2 font-bold text-white md:w-32 lg:w-40',
-    };
-    return variants[variant ?? 'primary'];
-};
+const buttonVariants = cva(
+  'w-24 rounded-full px-4 py-2 md:w-32 lg:w-40 font-bold transition-colors',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-primary text-white hover:bg-primary-dark',
+        dark: 'bg-dark text-white hover:bg-dark-light',
+      },
+    },
+    defaultVariants: {
+      variant: 'primary',
+    },
+  }
+);
 
-export function BaseButton({ variant, text }: BaseButtonProps) {
-  const buttonClass = useMemo(() => handleVariant(variant), [variant]);
+export function BaseButton({ 
+  variant = "primary",
+   text,
+   className = "",
+   ...props
+ }: BaseButtonProps) {
+const buttonClass = buttonVariants({ variant, className });
 
-  return (
-    <button className={buttonClass}>
-      {text}
-    </button>
-  );
+return <button className={twMerge(buttonClass)} {...props}>{text}</button>;
 }

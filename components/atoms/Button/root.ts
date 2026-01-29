@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { BaseButton } from './BaseButton';
 
 const Button = {
-  baseStyle: BaseButton,
+  baseStyle: memo(BaseButton),
 };
 
-export { Button };
+export { Button };  
