@@ -1,4 +1,4 @@
-import { Button } from '@/components/atoms/Button/BaseButton';
+import { Button } from '@/components/atoms/Button';
 import SharedLayout from '@/components/Templates/SharedLayout';
 import Image from 'next/image';
 
